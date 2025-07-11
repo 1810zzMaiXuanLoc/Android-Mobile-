@@ -1,0 +1,60 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/edtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Họ tên"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:id="@+id/edtAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Địa chỉ"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:id="@+id/edtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Số điện thoại"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:inputType="phone"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/black"/>
+
+        <Button
+            android:id="@+id/btnConfirmPayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xác nhận thanh toán"
+            android:backgroundTint="@color/purple_500"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="24dp"/>
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_arrow_back_24"
+            android:contentDescription="Back"
+            android:layout_marginTop="24dp"/>
+
+    </LinearLayout>
+</ScrollView>

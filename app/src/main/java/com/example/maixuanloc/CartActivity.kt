@@ -1,31 +1,53 @@
 package com.example.maixuanloc
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import android.widget.ImageView
 import android.widget.Button
+import android.content.Intent
 
 class CartActivity : AppCompatActivity() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: CartAdapter
+    private lateinit var textTotalPrice: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_cart)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
 
+        recyclerView = findViewById(R.id.recyclerViewCart)
+        textTotalPrice = findViewById(R.id.textTotalPrice)
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        adapter = CartAdapter(CartManager.getCartItems().toMutableList()) {
+            updateTotalPrice()
         }
-        val checkoutButton = findViewById<Button>(R.id.checkoutButton)
-        checkoutButton.setOnClickListener {
-            Toast.makeText(this, "Cảm ơn bạn đã mua hàng!", Toast.LENGTH_SHORT).show()
+        recyclerView.adapter = adapter
+// Gắn sự kiện nút quay lại ở đây
+        val btnBack = findViewById<ImageView>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            finish() // đóng Activity hiện tại → quay về màn trước
         }
-        val backButton = findViewById<Button>(R.id.backButton)
-        backButton.setOnClickListener {
-            finish()
+        // qua trang thanh toán
+        val btnCheckout = findViewById<Button>(R.id.btnCheckout)
+        btnCheckout.setOnClickListener {
+            val intent = Intent(this, PaymentActivity::class.java)
+            startActivity(intent)
         }
+
+        // Lần đầu load tổng tiền
+        updateTotalPrice()
+
+    }
+
+    private fun updateTotalPrice() {
+        val total = CartManager.getTotalPrice()
+        textTotalPrice.text = "Tổng: $${"%.2f".format(total)}"
+
     }
 }

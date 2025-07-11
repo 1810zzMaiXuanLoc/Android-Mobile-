@@ -19,8 +19,8 @@
 
         <!-- Tên đăng nhập -->
         <EditText
-            android:id="@+id/username"
-            android:hint="Tên đăng nhập"
+            android:id="@+id/email"
+            android:hint="Email đăng nhập"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"

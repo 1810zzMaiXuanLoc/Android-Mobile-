@@ -8,30 +8,48 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var usernameEdit: EditText
+
+    private lateinit var emailEdit: EditText
     private lateinit var passwordEdit: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        usernameEdit = findViewById(R.id.username)
+        emailEdit = findViewById(R.id.email)
         passwordEdit = findViewById(R.id.password)
     }
 
     fun onLogin(view: View?) {
-        val username = usernameEdit.text.toString()
-        val password = passwordEdit.text.toString()
+        val email = emailEdit.text.toString().trim()
+        val pass = passwordEdit.text.toString().trim()
 
-        if (username == "admin" && password == "123") {
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
+        if (email.isNotEmpty() && pass.isNotEmpty()) {
+            val sharedPref = getSharedPreferences("MyPref", MODE_PRIVATE)
+            val savedEmail = sharedPref.getString("email", "")
+            val savedPass = sharedPref.getString("password", "")
+
+            if (email == savedEmail && pass == savedPass) {
+                // Lưu lại email để HomeActivity dùng
+                val appPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                appPref.edit()
+                    .putString("email", email)
+                    .apply()
+
+                Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_LONG).show()
+                startActivity(Intent(this, HomeActivity::class.java))
+                finish()
+            } else {
+                Toast.makeText(this, "Sai email hoặc mật khẩu!", Toast.LENGTH_LONG).show()
+            }
         } else {
-            Toast.makeText(this, "Sai tài khoản hoặc mật khẩu!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show()
         }
     }
 
     fun onGoToRegister(view: View?) {
-        startActivity(Intent(this, RegisterActivity::class.java))
+        val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
